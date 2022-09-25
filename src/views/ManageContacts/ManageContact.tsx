@@ -1,23 +1,16 @@
-import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { useState } from 'react';
 import { View, StyleSheet, Image, TextInput, Text, TouchableOpacity, Modal } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
 import ManageContactHeader from '../../components/ManageContactHeader';
 import ModalDeleteItem from '../../components/ModalDeleteItem';
 import { Contact } from '../../models/Contact';
-import { setDisableDone, IContactsState, changeInputValue, deleteContact, setShowModal } from '../../redux/reducers/contact.reducer';
+import { setDisableDone, IContactsState, changeInputValue, setShowModal } from '../../redux/reducers/contact.reducer';
 import { AppDispatch, RootState } from '../../redux/store/store';
-import { RootStackParamList } from '../RootStackPrams';
 
-type authScreenProp = StackNavigationProp<RootStackParamList, 'ManageContact'>;
 
 const ManageContact = () => {
 
   const { currentContact, showModal } = useSelector<RootState, IContactsState>((state) => state.contact);
-
-  const navigation = useNavigation<authScreenProp>();
 
   const dispatch = useDispatch<AppDispatch>();
 
@@ -42,11 +35,6 @@ const ManageContact = () => {
   const handleDisableDone = (contact: Contact) => {
     const shouldDisable = !(Boolean(contact.Phone) && Boolean(contact.UserName.toString().length));
     dispatch(setDisableDone(shouldDisable));
-  };
-
-  const handleBack = () => {
-    dispatch(changeInputValue(new Contact()));
-    navigation.navigate('Contacts');
   };
 
   const handleDelete = () => {

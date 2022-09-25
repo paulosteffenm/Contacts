@@ -3,11 +3,23 @@ import { AntDesign } from '@expo/vector-icons';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../views/RootStackPrams';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../redux/store/store';
+import { changeFilterParam, IContactsState } from '../redux/reducers/contact.reducer';
 
 type authScreenProp = StackNavigationProp<RootStackParamList, 'Contacts'>;
 
 const ContactsHeader = () => {
+
   const navigation = useNavigation<authScreenProp>();
+
+  const dispatch = useDispatch<AppDispatch>();
+
+  const { filterParam } = useSelector<RootState, IContactsState>((state) => state.contact);
+
+  const handleChangeFilter = (text: string) => {
+    dispatch(changeFilterParam(text));
+  };
 
   const handleNewContact = () => {
     navigation.navigate('ManageContact');
@@ -31,6 +43,8 @@ const ContactsHeader = () => {
         <TextInput
           style={styles.search}
           placeholder='Search'
+          value={filterParam}
+          onChangeText={(text) => handleChangeFilter(text)}
         />
       </View>
     </View>
