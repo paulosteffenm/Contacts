@@ -1,14 +1,27 @@
-import { View, StyleSheet, Text, Pressable, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { setShowModal } from '../redux/reducers/contact.reducer';
+import { deleteContact, setShowModal } from '../redux/reducers/contact.reducer';
 import { AppDispatch } from '../redux/store/store';
+import { RootStackParamList } from '../views/RootStackPrams';
+
+type authScreenProp = StackNavigationProp<RootStackParamList, 'ManageContact'>;
 
 const ModalDeleteItem = () => {
 
   const dispatch = useDispatch<AppDispatch>();
 
+  const navigation = useNavigation<authScreenProp>();
+
   const handleCloseModal = () => {
     dispatch(setShowModal());
+  };
+
+  const handleDeleteButton = () => {
+    dispatch(deleteContact());
+    dispatch(setShowModal());
+    navigation.navigate('Contacts');
   };
 
   return (
@@ -16,7 +29,7 @@ const ModalDeleteItem = () => {
       <View style={styles.modalView}>
         <Text style={styles.modalText}>Are you sure?</Text>
         <View style={styles.buttons}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => handleCloseModal()}>
             <Text style={styles.cancelButton}>
               Cancel
             </Text>
@@ -24,7 +37,7 @@ const ModalDeleteItem = () => {
 
           <View style={styles.rectangle} />
 
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => handleDeleteButton()}>
             <Text style={styles.deleteButton}>
               Delete
             </Text>

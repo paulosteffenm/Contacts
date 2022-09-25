@@ -51,8 +51,6 @@ const ManageContact = () => {
 
   const handleDelete = () => {
     dispatch(setShowModal());
-    //dispatch(deleteContact());
-    //handleBack();
   };
 
   return (
@@ -69,7 +67,7 @@ const ManageContact = () => {
         <View style={styles.contactView}>
           <View style={styles.viewImage}>
             <Image
-              source={{ uri: 'https://png.pngtree.com/png-clipart/20191120/original/pngtree-outline-user-icon-png-image_5045523.jpg' }}
+              source={{ uri: 'https://ksastcorpsites.blob.core.windows.net/site/general/63703629760793-image.jpg?width=100' }}
               style={styles.userImage}
             />
             <Text style={styles.addPhoto}>Add Photo</Text>

@@ -45,6 +45,7 @@ export const contactSlice = createSlice({
     },
     deleteContact: (state): void => {
       const copyContacts = [...state.contacts.filter((contact) => contact.Id !== state.currentContact.Id)];
+      state.currentContact = new Contact();
       state.contacts = copyContacts;
     },
     setDisableDone: (state, action: PayloadAction<boolean>): void => {
