@@ -8,11 +8,13 @@ export interface IContactsState {
 
 const initialState: IContactsState = {
   contacts: [
-    new Contact({Id: '1'}),
-    new Contact({Id: '2'}),
-    new Contact({Id: '3'}),
-    new Contact({Id: '5'}),
-    new Contact({Id: '4'}),
+    new Contact({Id: '1', Phone: 123123, UserName: 'Pwneir Frigh'}),
+    new Contact({Id: '2', Phone: 123123, UserName: 'Radsjn Pfeji'}),
+    new Contact({Id: '3', Phone: 123123, UserName: 'Tirohyg Kgbrej'}),
+    new Contact({Id: '4', Phone: 123123, UserName: 'Sgjhkfs Mklsa'}),
+    new Contact({Id: '5', Phone: 123123, UserName: 'Vsdgrh Queio'}),
+    new Contact({Id: '5', Phone: 123123, UserName: 'asdgrh Queio'}),
+    new Contact({Id: '4', Phone: 123123, UserName: 'agjhkfs Mklsa'}),
   ],
   currentContact: new Contact()
 };

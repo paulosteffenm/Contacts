@@ -8,7 +8,7 @@ const Router = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="ManageContact"
+        initialRouteName="Contacts"
         screenOptions={{
           headerShown: false
         }}
