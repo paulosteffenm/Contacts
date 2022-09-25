@@ -5,6 +5,10 @@ export const store = configureStore({
   reducer: {
     contact: contactReducer,
   },
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 });
 
 export type RootState = ReturnType<typeof store.getState>

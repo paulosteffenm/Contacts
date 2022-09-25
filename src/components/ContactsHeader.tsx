@@ -1,5 +1,4 @@
 import { Text, StyleSheet, View, TextInput, TouchableOpacity } from 'react-native';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { AntDesign } from '@expo/vector-icons';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
@@ -15,28 +14,26 @@ const ContactsHeader = () => {
   };
 
   return (
-    <SafeAreaProvider>
-      <SafeAreaView style={styles.safeView}>
-        <View style={styles.contactsPlus}>
-          <AntDesign name="plus" size={24} color="transparent" />
-          <Text style={styles.contactsText}>Contacts</Text>
-          <TouchableOpacity onPress={() => handleNewContact()}>
-            <AntDesign name="plus" size={24} color="#007AFF" />
-          </TouchableOpacity>
-        </View>
-        <View style={styles.searchView}>
-          <AntDesign
-            style={styles.searchIcon}
-            name="search1"
-            size={16}
-            color="#f5f5f7" />
-          <TextInput
-            style={styles.search}
-            placeholder='Search'
-          />
-        </View>
-      </SafeAreaView>
-    </SafeAreaProvider>
+    <View style={styles.safeView}>
+      <View style={styles.contactsPlus}>
+        <AntDesign name="plus" size={24} color="transparent" />
+        <Text style={styles.contactsText}>Contacts</Text>
+        <TouchableOpacity onPress={() => handleNewContact()}>
+          <AntDesign name="plus" size={24} color="#007AFF" />
+        </TouchableOpacity>
+      </View>
+      <View style={styles.searchView}>
+        <AntDesign
+          style={styles.searchIcon}
+          name="search1"
+          size={16}
+          color="#f5f5f7" />
+        <TextInput
+          style={styles.search}
+          placeholder='Search'
+        />
+      </View>
+    </View>
   );
 };
 
@@ -44,9 +41,13 @@ export default ContactsHeader;
 
 const styles = StyleSheet.create({
   safeView: {
+    padding: 5,
     display: 'flex',
     flexDirection: 'column',
     backgroundColor: '#0E0E0E',
+    position: 'absolute',
+    zIndex: 10,
+    width: '100%'
   },
   contactsPlus: {
     padding: 5,

@@ -9,36 +9,44 @@ const ManageContact = () => {
 
   const { currentContact } = useSelector<RootState, IContactsState>((state) => state.contact);
 
+  const handleChangeName = (name: string) => {
+    currentContact.UserName = name;
+  };
+
+  const handleChangePhone = (phone: string) => {
+    currentContact.Phone = +phone;
+  };
+
   return (
-    <>
-      <SafeAreaProvider>
-        <SafeAreaView style={styles.safeView}>
-          <ManageContactHeader />
-          <View style={styles.contactView}>
-            <View style={styles.viewImage}>
-              <Image
-                source={{ uri: 'https://png.pngtree.com/png-clipart/20191120/original/pngtree-outline-user-icon-png-image_5045523.jpg' }}
-                style={styles.userImage}
-              />
-              <Text style={styles.addPhoto}>Add Photo</Text>
-            </View>
-            <View style={styles.viewInputs}>
-              <TextInput
-                style={[styles.textInput, styles.textBorder]}
-                placeholder='Name'
-                value={currentContact.UserName}
-              />
-              <TextInput
-                style={styles.textInput}
-                placeholder='Number'
-                value={currentContact.Phone?.toString()}
-                keyboardType="numeric"
-              />
-            </View>
+    <SafeAreaProvider>
+      <SafeAreaView style={styles.safeView}>
+        <ManageContactHeader />
+        <View style={styles.contactView}>
+          <View style={styles.viewImage}>
+            <Image
+              source={{ uri: 'https://png.pngtree.com/png-clipart/20191120/original/pngtree-outline-user-icon-png-image_5045523.jpg' }}
+              style={styles.userImage}
+            />
+            <Text style={styles.addPhoto}>Add Photo</Text>
           </View>
-        </SafeAreaView>
-      </SafeAreaProvider>
-    </>
+          <View style={styles.viewInputs}>
+            <TextInput
+              style={[styles.textInput, styles.textBorder]}
+              placeholder='Name'
+              value={currentContact.UserName}
+              onChangeText={(text) => handleChangeName(text)}
+            />
+            <TextInput
+              style={styles.textInput}
+              placeholder='Number'
+              value={currentContact.Phone?.toString()}
+              onChangeText={(text) => handleChangePhone(text)}
+              keyboardType="numeric"
+            />
+          </View>
+        </View>
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 };
 

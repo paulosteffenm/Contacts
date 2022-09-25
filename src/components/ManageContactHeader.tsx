@@ -1,6 +1,9 @@
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { Text, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { addContact, IContactsState } from '../redux/reducers/contact.reducer';
+import { AppDispatch, RootState } from '../redux/store/store';
 import { RootStackParamList } from '../views/RootStackPrams';
 
 type authScreenProp = StackNavigationProp<RootStackParamList, 'ManageContact'>;
@@ -9,8 +12,17 @@ const ManageContactHeader = () => {
 
   const navigation = useNavigation<authScreenProp>();
 
+  const dispatch = useDispatch<AppDispatch>();
+
+  const { currentContact } = useSelector<RootState, IContactsState>((state) => state.contact);
+
   const handleBack = () => {
     navigation.navigate('Contacts');
+  };
+
+  const handleDone = () => {
+    dispatch(addContact());
+    handleBack();
   };
 
   return (
@@ -19,7 +31,10 @@ const ManageContactHeader = () => {
         <Text style={styles.navigateButtons}>Cancel</Text>
       </TouchableOpacity>
       <Text style={styles.contactsText}>Contacts</Text>
-      <Text style={styles.navigateButtons}>Done</Text>
+      <TouchableOpacity onPress={() => handleDone()}>
+        <Text style={styles.navigateButtons}>Done</Text>
+      </TouchableOpacity>
+
     </View>
   );
 };
@@ -34,7 +49,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     backgroundColor: '#0E0E0E',
     position: 'absolute',
-    zIndex:10,
+    zIndex: 10,
     width: '100%'
   },
   contactsText: {
