@@ -1,26 +1,71 @@
-import { View, StyleSheet, Image, TextInput, Text } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { useState } from 'react';
+import { View, StyleSheet, Image, TextInput, Text, TouchableOpacity, Modal } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import ManageContactHeader from '../../components/ManageContactHeader';
-import { IContactsState } from '../../redux/reducers/contact.reducer';
-import { RootState } from '../../redux/store/store';
+import ModalDeleteItem from '../../components/ModalDeleteItem';
+import { Contact } from '../../models/Contact';
+import { setDisableDone, IContactsState, changeInputValue, deleteContact, setShowModal } from '../../redux/reducers/contact.reducer';
+import { AppDispatch, RootState } from '../../redux/store/store';
+import { RootStackParamList } from '../RootStackPrams';
+
+type authScreenProp = StackNavigationProp<RootStackParamList, 'ManageContact'>;
 
 const ManageContact = () => {
 
-  const { currentContact } = useSelector<RootState, IContactsState>((state) => state.contact);
+  const { currentContact, showModal } = useSelector<RootState, IContactsState>((state) => state.contact);
+
+  const navigation = useNavigation<authScreenProp>();
+
+  const dispatch = useDispatch<AppDispatch>();
 
   const handleChangeName = (name: string) => {
-    currentContact.UserName = name;
+    const newContact = new Contact({
+      ...currentContact,
+      UserName: name,
+    });
+    dispatch(changeInputValue(newContact));
+    handleDisableDone(newContact);
   };
 
   const handleChangePhone = (phone: string) => {
-    currentContact.Phone = +phone;
+    const newContact = new Contact({
+      ...currentContact,
+      Phone: +phone,
+    });
+    dispatch(changeInputValue(newContact));
+    handleDisableDone(newContact);
+  };
+
+  const handleDisableDone = (contact: Contact) => {
+    const shouldDisable = !(Boolean(contact.Phone) && Boolean(contact.UserName.toString().length));
+    dispatch(setDisableDone(shouldDisable));
+  };
+
+  const handleBack = () => {
+    dispatch(changeInputValue(new Contact()));
+    navigation.navigate('Contacts');
+  };
+
+  const handleDelete = () => {
+    dispatch(setShowModal());
+    //dispatch(deleteContact());
+    //handleBack();
   };
 
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.safeView}>
         <ManageContactHeader />
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={showModal}
+        >
+          <ModalDeleteItem />
+        </Modal>
         <View style={styles.contactView}>
           <View style={styles.viewImage}>
             <Image
@@ -33,16 +78,22 @@ const ManageContact = () => {
             <TextInput
               style={[styles.textInput, styles.textBorder]}
               placeholder='Name'
-              value={currentContact.UserName}
+              value={currentContact.UserName || ''}
               onChangeText={(text) => handleChangeName(text)}
             />
             <TextInput
               style={styles.textInput}
               placeholder='Number'
-              value={currentContact.Phone?.toString()}
+              value={currentContact.Phone?.toString() || ''}
               onChangeText={(text) => handleChangePhone(text)}
               keyboardType="numeric"
             />
+            {currentContact.Id &&
+              <TouchableOpacity onPress={() => handleDelete()}>
+                <Text style={styles.deleteContact}>
+                  Delete Contact
+                </Text>
+              </TouchableOpacity>}
           </View>
         </View>
       </SafeAreaView>
@@ -97,5 +148,15 @@ const styles = StyleSheet.create({
   textBorder: {
     borderBottomWidth: 1,
     borderColor: '#636366',
+  },
+  deleteContact: {
+    padding: 5,
+    color: '#FF453A',
+    width: '100%',
+    backgroundColor: '#3B3B3B',
+    outlineStyle: 'none',
+    borderColor: '#636366',
+    borderTopWidth: 1,
+    fontWeight: '500'
   }
 });

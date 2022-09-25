@@ -2,7 +2,8 @@ import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { Text, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact, IContactsState } from '../redux/reducers/contact.reducer';
+import { Contact } from '../models/Contact';
+import { addContact, changeInputValue, IContactsState, updateContact } from '../redux/reducers/contact.reducer';
 import { AppDispatch, RootState } from '../redux/store/store';
 import { RootStackParamList } from '../views/RootStackPrams';
 
@@ -14,14 +15,20 @@ const ManageContactHeader = () => {
 
   const dispatch = useDispatch<AppDispatch>();
 
-  const { currentContact } = useSelector<RootState, IContactsState>((state) => state.contact);
+  const { disableDone, currentContact } = useSelector<RootState, IContactsState>((state) => state.contact);
 
   const handleBack = () => {
+    dispatch(changeInputValue(new Contact()));
     navigation.navigate('Contacts');
   };
 
   const handleDone = () => {
-    dispatch(addContact());
+    if (currentContact.Id) {
+      dispatch(updateContact());
+    } else {
+      dispatch(addContact());
+    }
+
     handleBack();
   };
 
@@ -31,8 +38,8 @@ const ManageContactHeader = () => {
         <Text style={styles.navigateButtons}>Cancel</Text>
       </TouchableOpacity>
       <Text style={styles.contactsText}>Contacts</Text>
-      <TouchableOpacity onPress={() => handleDone()}>
-        <Text style={styles.navigateButtons}>Done</Text>
+      <TouchableOpacity disabled={disableDone} onPress={() => handleDone()}>
+        <Text style={(disableDone) ? styles.disableDone : styles.navigateButtons}>Done</Text>
       </TouchableOpacity>
 
     </View>
@@ -59,6 +66,11 @@ const styles = StyleSheet.create({
   },
   navigateButtons: {
     color: '#007AFF',
+    fontWeight: '500',
+    fontSize: 14
+  },
+  disableDone: {
+    color: '#48484A',
     fontWeight: '500',
     fontSize: 14
   }
