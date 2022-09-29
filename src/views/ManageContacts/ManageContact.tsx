@@ -32,8 +32,36 @@ const ManageContact = () => {
     handleDisableDone(newContact);
   };
 
+  const handleChangeEmail = (email: string) => {
+    const newContact = new Contact({
+      ...currentContact,
+      Email: email,
+    });
+    dispatch(changeInputValue(newContact));
+    handleDisableDone(newContact);
+  };
+
+  const handleChangeBirthDate = (birthDate: string) => {
+    console.log(birthDate);
+    const newContact = new Contact({
+      ...currentContact,
+      BirthDate: new Date(),
+    });
+    dispatch(changeInputValue(newContact));
+    handleDisableDone(newContact);
+  };
+
+  const handleChangeCompany = (company: string) => {
+    const newContact = new Contact({
+      ...currentContact,
+      Company: company,
+    });
+    dispatch(changeInputValue(newContact));
+    handleDisableDone(newContact);
+  };
+
   const handleDisableDone = (contact: Contact) => {
-    const shouldDisable = !(Boolean(contact.Phone) && Boolean(contact.UserName.toString().length));
+    const shouldDisable = !(contact.UserName.toString().length);
     dispatch(setDisableDone(shouldDisable));
   };
 
@@ -69,12 +97,33 @@ const ManageContact = () => {
               onChangeText={(text) => handleChangeName(text)}
             />
             <TextInput
-              style={styles.textInput}
+              style={[styles.textInput, styles.textBorder]}
               placeholder='Number'
               placeholderTextColor="#f5f5f7"
               value={currentContact.Phone?.toString() || ''}
               onChangeText={(text) => handleChangePhone(text)}
               keyboardType="numeric"
+            />
+            <TextInput
+              style={[styles.textInput, styles.textBorder]}
+              placeholder='Email'
+              placeholderTextColor="#f5f5f7"
+              value={currentContact.Email || ''}
+              onChangeText={(text) => handleChangeEmail(text)}
+            />
+            <TextInput
+              style={[styles.textInput, styles.textBorder]}
+              placeholder='Birth Date'
+              placeholderTextColor="#f5f5f7"
+              value={currentContact?.BirthDate?.toUTCString() || ''}
+              onChangeText={(text) => handleChangeBirthDate(text)}
+            />
+            <TextInput
+              style={[styles.textInput, styles.textBorder]}
+              placeholder='Company'
+              placeholderTextColor="#f5f5f7"
+              value={currentContact.Company || ''}
+              onChangeText={(text) => handleChangeCompany(text)}
             />
             {currentContact.Id &&
               <TouchableOpacity onPress={() => handleDelete()}>
