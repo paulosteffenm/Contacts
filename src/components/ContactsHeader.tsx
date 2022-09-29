@@ -43,6 +43,7 @@ const ContactsHeader = () => {
         <TextInput
           style={styles.search}
           placeholder='Search'
+          placeholderTextColor="#f5f5f7"
           value={filterParam}
           onChangeText={(text) => handleChangeFilter(text)}
         />

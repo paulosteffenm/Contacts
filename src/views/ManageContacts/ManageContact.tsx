@@ -64,12 +64,14 @@ const ManageContact = () => {
             <TextInput
               style={[styles.textInput, styles.textBorder]}
               placeholder='Name'
+              placeholderTextColor="#f5f5f7"
               value={currentContact.UserName || ''}
               onChangeText={(text) => handleChangeName(text)}
             />
             <TextInput
               style={styles.textInput}
               placeholder='Number'
+              placeholderTextColor="#f5f5f7"
               value={currentContact.Phone?.toString() || ''}
               onChangeText={(text) => handleChangePhone(text)}
               keyboardType="numeric"
@@ -140,7 +142,6 @@ const styles = StyleSheet.create({
     color: '#FF453A',
     width: '100%',
     backgroundColor: '#3B3B3B',
-    outlineStyle: 'none',
     borderColor: '#636366',
     borderTopWidth: 1,
     fontWeight: '500'
