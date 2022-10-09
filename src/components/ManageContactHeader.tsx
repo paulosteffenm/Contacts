@@ -3,7 +3,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { Text, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { Contact } from '../models/Contact';
-import { addContact, changeInputValue, IContactsState, updateContact } from '../redux/reducers/contact.reducer';
+import { addContact, changeInputValue, IContactsState, updateContact, setDisableDone } from '../redux/reducers/contact.reducer';
 import { AppDispatch, RootState } from '../redux/store/store';
 import { RootStackParamList } from '../views/RootStackPrams';
 
@@ -19,6 +19,7 @@ const ManageContactHeader = () => {
 
   const handleBack = () => {
     dispatch(changeInputValue(new Contact()));
+    dispatch(setDisableDone(true));
     navigation.navigate('Contacts');
   };
 
@@ -28,7 +29,6 @@ const ManageContactHeader = () => {
     } else {
       dispatch(addContact());
     }
-
     handleBack();
   };
 
