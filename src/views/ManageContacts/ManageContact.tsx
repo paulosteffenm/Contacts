@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { View, StyleSheet, Image, TextInput, Text, TouchableOpacity, Modal } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,6 +14,11 @@ const ManageContact = () => {
   const { currentContact, showModal } = useSelector<RootState, IContactsState>((state) => state.contact);
 
   const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    const shouldDisable = !(currentContact?.UserName?.toString().length);
+    dispatch(setDisableDone(shouldDisable));
+  }, []);
 
   const handleChangeName = (name: string) => {
     const newContact = new Contact({
