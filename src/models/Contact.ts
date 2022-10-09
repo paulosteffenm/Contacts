@@ -4,7 +4,7 @@ export class Contact {
   public UserName!: string;
   public Phone!: number;
   public Email!: string;
-  public BirthDate!: Date;
+  public BirthDate!: string;
   public Company!: string;
   public Photo!: string;
 
