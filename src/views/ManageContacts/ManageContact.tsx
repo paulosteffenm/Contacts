@@ -42,10 +42,9 @@ const ManageContact = () => {
   };
 
   const handleChangeBirthDate = (birthDate: string) => {
-    console.log(birthDate);
     const newContact = new Contact({
       ...currentContact,
-      BirthDate: new Date(),
+      BirthDate: birthDate,
     });
     dispatch(changeInputValue(newContact));
     handleDisableDone(newContact);
@@ -115,7 +114,7 @@ const ManageContact = () => {
               style={[styles.textInput, styles.textBorder]}
               placeholder='Birth Date'
               placeholderTextColor="#f5f5f7"
-              value={currentContact?.BirthDate?.toUTCString() || ''}
+              value={currentContact?.BirthDate || ''}
               onChangeText={(text) => handleChangeBirthDate(text)}
             />
             <TextInput
